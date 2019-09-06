@@ -14,7 +14,54 @@ Start kubernetes cluster
 minikube start 
 ```
 
-Create pod using yaml file
+## Create deployment using yaml file :
+
+Create two different deployment yaml file two separate applications. 
+
+sample : 
+
+```yaml
+apiVersion: extensions/v1beta1
+ kind: Deployment
+ metadata:
+   name: store-service
+ spec:
+   replicas: 2
+   template:
+     metadata:
+       labels:
+         app: web
+     spec:
+       containers:
+         - name: front-end
+           image: nginx
+           ports:
+             - containerPort: 80
+```
+
+## Create Service for accessing the deployment :
+
+Deployment is done it means pods are created, we verify by
+
+```shell
+kubeclt get pods
+```
+
+now it is time to create service file to access these pods. Service provide end point to access the pods containers. For creating service we need to create another yaml file configuration for service. 
+
+In case any problem in creating pods, we can see description of pods and check events for error message. 
+
+```yaml
+kubectl describe pods 'pod-name'
+```
+
+
+
+
+
+
+
+## Create pod using yaml file
 
 Next, we’re specifying that we want to create a Pod; we might specify instead a Deployment, Job, Service, and so on, depending on what we’re trying to achieve.
 
@@ -44,6 +91,18 @@ spec: #specify the actual object that make up the object, like container, storag
      ports:
        – containerPort: 88
 ```
+
+## kube proxy
+
+This is the Kubernetes network proxy runs on each node. It helps in communication, so when any client or service send request to the service, it will be handled by kube-proxy. It implement round robin algorithm to provide access to the service node. 
+
+## Istio Ingress trouble shoots
+
+```shell
+kubectl get virtualservice 'service-name' -o yaml
+```
+
+
 
 
 
